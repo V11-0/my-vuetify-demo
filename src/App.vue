@@ -1,29 +1,46 @@
 <template>
   <v-app>
-    <v-system-bar app>
+    <v-system-bar app window>
+      <span>Welcome back, {{ $user }}</span>
+
       <v-spacer></v-spacer>
-      <v-icon>mdi-wifi-strength-4</v-icon>
-      <v-icon>mdi-signal-cellular-outline</v-icon>
-      <v-icon>mdi-battery</v-icon>
-      <span>12:30</span>
+
+      <span>{{ dateFormatted }}</span>
     </v-system-bar>
 
-    <Drawer />
-
-    <v-app-bar app>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Demo</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
+    <Bars v-on:drawer="$refs.drawer.change()" />
+    <Drawer ref="drawer" />
 
     <v-main>
-      <v-alert border="left" color="indigo" dark>
-        I'm an alert with a border left type info
+      <v-alert
+        color="red"
+        type="error"
+        text
+        v-if="showAlert"
+        transition="expand-transition"
+      >
+        <v-row align="center">
+          <v-col class="grow">
+            I'm an example of an Alert about an error which you, the user just
+            need to click on this -> button to fix the problem, and this alert
+            text is long because I'm testing the resize made by the framework
+          </v-col>
+          <v-col class="shrink">
+            <v-btn depressed color="error" :loading="fixing" @click="fix"
+              >Fix</v-btn
+            >
+          </v-col>
+        </v-row>
       </v-alert>
 
-      <router-link />
+      <router-view></router-view>
     </v-main>
+
+    <v-footer padless>
+      <v-col class="text-center" cols="12">
+        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
@@ -31,16 +48,39 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 
-import Drawer from '@/components/Drawer.vue';
+// Components
+import Bars from "@/components/Bars.vue";
+import Drawer from "@/components/Drawer.vue";
 
 @Component({
   components: {
-    Drawer,
+    Bars,
+    Drawer
   }
 })
 export default class App extends Vue {
   created() {
-    console.log("A");
+    Vue.prototype.$user = "Sandra Adams";
+    Vue.prototype.$email = "sandra_a88@gmail.com";
+  }
+
+  showAlert = true;
+
+  dateFormatted = "";
+  fixing = false;
+
+  mounted() {
+    setInterval(this.getDate, 1000);
+  }
+
+  getDate() {
+    const date = new Date();
+    this.dateFormatted = date.toLocaleTimeString();
+  }
+
+  fix() {
+    this.fixing = true;
+    setTimeout(() => (this.showAlert = false), 2500);
   }
 }
 </script>
