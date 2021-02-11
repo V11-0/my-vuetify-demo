@@ -1,38 +1,41 @@
 export class User {
+  private _gender: string;
+  private _name: string;
+  private _username: string;
+  private _email: string;
+  private _picUrl: string;
 
-    private _gender: string;
-    private _name: string;
-    private _username: string;
-    private _email: string;
-    private _picUrl: string;
+  constructor(
+    gender: string,
+    name: string,
+    username: string,
+    email: string,
+    picUrl: string
+  ) {
+    this._gender = gender;
+    this._name = name;
+    this._username = username;
+    this._email = email;
+    this._picUrl = picUrl;
+  }
 
-    constructor(gender: string, name: string
-        , username: string, email: string, picUrl: string) {
+  get gender(): string {
+    return this._gender;
+  }
 
-            this._gender = gender;
-            this._name = name;
-            this._username = username;
-            this._email = email;
-            this._picUrl = picUrl;
-    }
+  get name(): string {
+    return this._name;
+  }
 
-    get gender(): string {
-        return this._gender;
-    }
+  get username(): string {
+    return this._username;
+  }
 
-    get name(): string {
-        return this._name;
-    }
+  get email(): string {
+    return this._email;
+  }
 
-    get username(): string {
-        return this._username;
-    }
-
-    get email(): string {
-        return this._email;
-    }
-
-    get picUrl(): string {
-        return this._picUrl;
-    }
+  get picUrl(): string {
+    return this._picUrl;
+  }
 }
